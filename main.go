@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/garybowers/recommender/inputs/recommender"
-	"github.com/garybowers/recommender/util/git"
-	"github.com/garybowers/recommender/util/storage"
-	"github.com/garybowers/recommender/util/terraform"
+	"github.com/garybowers/gcp_recommender/inputs/recommender"
+	"github.com/garybowers/gcp_recommender/util/git"
+	"github.com/garybowers/gcp_recommender/util/storage"
+	"github.com/garybowers/gcp_recommender/util/terraform"
 	//"io/ioutil"
 	"log"
 	"os"

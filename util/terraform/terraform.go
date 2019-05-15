@@ -1,7 +1,7 @@
 package terraform
 
 import (
-	"github.com/garybowers/recommender/inputs/recommender"
+	"github.com/garybowers/gcp_recommender/inputs/recommender"
 	"log"
 )
 
