@@ -57,10 +57,9 @@ func main() {
 
 	var empty []string
 	paths := terraform.Walk(fs, ".", empty)
-	terraform.FindStringInFiles(fs, paths, resources)
-	/*
-		for _, path := range paths {
-			terraform.Unpackfile(fs, path, resources)
-		}
-	*/
+
+	//terraform.FindStringInFiles(fs, paths, resources)
+	fmt.Println(paths)
+	terraform.DiscoverResource(fs, paths, resources)
+
 }

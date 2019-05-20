@@ -1,12 +1,15 @@
 package terraform
 
 import (
-	"bufio"
 	"fmt"
+	"github.com/hashicorp/hcl"
+	//"github.com/hashicorp/hcl/hcl/printer"
+	//jsonParser "github.com/hashicorp/hcl/json/parser"
+	"encoding/json"
 	"gopkg.in/src-d/go-billy.v4"
+	"io/ioutil"
 	"log"
-	"strconv"
-	"strings"
+	"path/filepath"
 )
 
 func Walk(fs billy.Filesystem, fullPath string, paths []string) []string {
@@ -28,76 +31,40 @@ func Walk(fs billy.Filesystem, fullPath string, paths []string) []string {
 	return paths
 }
 
-/*
-func StringInFile(file *File, searchString string) {
-}
-*/
-func getSearchString() {
-
-}
-
-func FindStringInFiles(fs billy.Filesystem, files []string, searchString string) string {
+func DiscoverResource(fs billy.Filesystem, files []string, resource []StateResources) {
 	for _, file := range files {
 		f, err := fs.Open(file)
 		if err != nil {
 			log.Fatalf("Unable to open file: %v", err)
 		}
-		defer f.Close()
-		scanner := bufio.NewScanner(f)
-		line := 1
-		for scanner.Scan() {
-			if strings.Contains(scanner.Text(), searchString) {
-				return file
-			}
-			line++
+
+		fi, err := ioutil.ReadAll(f)
+		if err != nil {
+			panic(err)
+		}
+
+		if filepath.Ext(file) == ".tf" {
+			json := hclToJson(fi)
+			fmt.Println(string(json))
 		}
 	}
-	return ""
 }
 
-/*
-func FindResourceAttribute(files *Files, resourceType string, resourceName string, attribute) {
-	searchString := resourceType + resourceName
-	fileWithResource := FindStringInFiles(files, searchString)
-	if len(GetOccurencesInFile(file, attributeString)) == 1 {
-	    ReplaceStringInFile(file, oldValue newValue)
-	}
-	else {
-		print("Multiple strings not yet supported.")
-	}
-}
-*/
-
-func Unpackfile(fs billy.Filesystem, file string, inputs []StateResources) {
-	//fmt.Println(file)
-	f, err := fs.Open(file)
+func hclToJson(tfSource []byte) string {
+	//fmt.Println(tfSource)
+	var v interface{}
+	err := hcl.Unmarshal(tfSource, &v)
 	if err != nil {
-		log.Fatalf("Unable to open file: %v", err)
-	}
-	defer f.Close()
-	scanner := bufio.NewScanner(f)
-
-	line := 1
-	for scanner.Scan() {
-		for _, ip := range inputs {
-			resourceType := strings.Split(ip.TFResource, ".")[0]
-			resourceName := strings.Join(strings.Split(ip.TFResource, ".")[1:], ".")
-			searchString := "resource " + strconv.Quote(resourceType) + " " + strconv.Quote(resourceName)
-
-			if strings.Contains(scanner.Text(), searchString) {
-				log.Printf("Found matching resource in file %v", file, " at line ", line, " matching resource", searchString)
-				fmt.Println(file)
-				fmt.Println(ip.OldValue)
-			}
-			line++
-		}
+		panic(err)
 	}
 
-	//b, err := ioutil.ReadAll(f)
-	//if err != nil {
-	//	log.Fatalf("Unable to open file: %v", err)
-	//}
-	//fmt.Println(file)
-	//fmt.Println(string(b))
+	json, err := json.Marshal(v)
+	if err != nil {
+		panic(err)
+	}
+	return string(json)
+}
+
+func jsonToHcl() {
 
 }
