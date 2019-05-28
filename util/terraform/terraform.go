@@ -5,35 +5,6 @@ import (
 	"log"
 )
 
-//func GetModulePath(pathComponents []string, currentPath string) string {
-//	if len(pathComponents) == 0 {
-//		return currentPath
-//	} else {
-//		targetModule := pathComponents[0]
-//		localTerraformFiles := GetLocalTerraformFiles(currentPath)
-//		relativeModulePath := GetModuleSourceDirectory(targetModule, localTerraformFiles)
-//		fullModulePath := path.Join(currentPath, relativeModulePath)
-//		reducedPathComponents := pathComponents[:len(pathComponents)-1]
-//		return GetModulePath(reducedPathComponents, fullModulePath)
-//	}
-//}
-/*
-func GetLocalTerraformFiles(path string) []string {
-	// TODO
-	localTerraformFiles := make([]string, 0)
-	return localTerraformFiles
-}
-
-func GetModuleSourceDirectory(localTerraformFilePaths []string) string {
-	// TODO
-	return ""
-}
-*/
-//GetModulePath(["root", "foo", "bar", "baz"], "/gary/terraform")
-//GetModulePath(["foo", "bar", "baz"], "/gary/terraform/")
-//GetModulePath(["bar", "baz"], "/gary/terraform/foo")
-//GetModulePath(["baz"], "/gary/terraform/foo/bar2")
-
 type StateResources struct {
 	ResourceType     string
 	ResourceName     string

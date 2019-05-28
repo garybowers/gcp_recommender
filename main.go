@@ -44,6 +44,13 @@ func main() {
 
 	// 3. Find the recommended change in the state, this will give us a clue as to what resource block to change and where in the hierarchy it lives.
 
+  var findings []recommender.Findings
+  findings = GCPFindings
+  for _, finding := range findings {
+    fmt.Println(finding.Instance)
+   }
+
+
 	resources := terraform.FindResources(state, GCPFindings)
 	fmt.Println(resources)
 
@@ -55,11 +62,9 @@ func main() {
 		gitToken)
 	fmt.Println(repo)
 
-	var empty []string
-	paths := terraform.Walk(fs, ".", empty)
+	//var empty []string
+	//paths := terraform.Walk(fs, ".", empty)
 
-	//terraform.FindStringInFiles(fs, paths, resources)
-	fmt.Println(paths)
-	terraform.DiscoverResource(fs, paths, resources)
+	terraform.DiscoverResource(fs, ".", resources)
 
 }
