@@ -14,6 +14,11 @@ import (
 	"path/filepath"
 )
 
+type tfResource struct {
+    resource interface{}
+}
+
+
 func walk(fs billy.Filesystem, fullPath string, paths []string) []string {
 	children, _ := fs.ReadDir(fullPath)
 	for _, fi := range children {
@@ -79,62 +84,10 @@ func DiscoverResource(fs billy.Filesystem, fullPath string, resource []StateReso
 
 		}
 	}
+  var matchResource []StateResources
+  matchResource = resource
+  fmt.Println(matchResource)
 }
-
-/*
-func DiscoverResource(fs billy.Filesystem, files []string, resource []StateResources) {
-	for _, file := range files {
-		f, err := fs.Open(file)
-		if err != nil {
-			log.Fatalf("Unable to open file: %v", err)
-		}
-
-		fi, err := ioutil.ReadAll(f)
-		if err != nil {
-			panic(err)
-		}
-		if filepath.Ext(file) == ".tf" {
-
-				hcl, err := hcl.Parse(string(fi))
-				if err != nil {
-					panic(err)
-				}
-				fmt.Println(hcl)
-
-			var t interface{}
-			hcl.Decode(&t, string(fi))
-			if err != nil {
-				panic(err)
-			}
-			fmt.Println(t.module)
-		}
-
-			if filepath.Ext(file) == ".tf" {
-				tfJson, err := hclToJson(fi)
-				if err != nil {
-					panic(err)
-				}
-
-				var result map[string]interface{}
-				json.Unmarshal(tfJson, &result)
-
-				for key, _ := range result {
-					switch key {
-					case "resource":
-						res1 := result["resource"].([]interface{})
-						for key1, _ := range res1 {
-							fmt.Println(key1)
-							//fmt.Println(val1)
-						}
-					}
-
-				}
-
-			}
-
-	}
-}
-*/
 
 func hclToJson(tfSource []byte) ([]byte, error) {
 	var v interface{}

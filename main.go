@@ -43,20 +43,17 @@ func main() {
 	}
 
 	// 3. Find the recommended change in the state, this will give us a clue as to what resource block to change and where in the hierarchy it lives.
-
   var findings []recommender.Findings
   findings = GCPFindings
   for _, finding := range findings {
-    fmt.Println(finding.Instance)
+    log.Println(finding.Instance)
    }
 
-
 	resources := terraform.FindResources(state, GCPFindings)
-	fmt.Println(resources)
+  fmt.Println(resources)
 
 	// 4. Get the terraform code repo from our git repository, token, username and repo can come from various places.
 	// At KPMG as part of the project creation we put a breadcrumb in the project metadata, we have a base64 hash of the git repo url.
-
 	fs, repo := git.Clone(gitUrl,
 		gitUser,
 		gitToken)

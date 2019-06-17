@@ -17,6 +17,7 @@ import (
 )
 
 func Clone(source string, userName string, accessToken string) (fileystem billy.Filesystem, repo *git.Repository) {
+  log.Printf("Cloning repository: %v", source)
 	fs := memfs.New()
 	repository, err := git.Clone(memory.NewStorage(), fs, &git.CloneOptions{
 		URL: source,

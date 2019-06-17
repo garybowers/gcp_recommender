@@ -94,7 +94,7 @@ func getRecommendations(credentialsFile string, projectId string, location strin
 	}
 
 	b, _ := ioutil.ReadAll(resp.Body)
-	log.Println(string([]byte(body)))
+  //log.Println(string(b))
 
 	return b
 }
